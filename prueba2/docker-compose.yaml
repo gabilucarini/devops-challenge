@@ -1,0 +1,58 @@
+version: '3.9'
+services:  
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    container_name: backend
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      - DB_HOST=database
+      - DB_PORT=5432
+      - DB_ENGINE=django.db.backends.postgresql
+      - DB_NAME=chanllenge_db
+      - DB_USER=gabriel
+      - DB_PASS=gabriel
+      - SECRET_KEY=foo
+    ports:
+      - "8000:8000"
+    depends_on:
+      - database
+    networks:
+      - network-example
+  
+  database:
+    image: postgres:15-alpine
+    restart: always
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=chanllenge_db
+      - POSTGRES_USER=gabriel
+      - POSTGRES_PASSWORD=gabriel
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - network-example
+  
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    container_name: frontend
+    command: npm run start
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - network-example
+
+volumes:
+  postgres_data:
+
+networks:
+  network-example:
