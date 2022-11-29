@@ -32,4 +32,4 @@ jobs:
         context: .
         file: prueba3/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/devops-chanllenge$(date +%s)
+        tags: ${{ secrets.DOCKER_USERNAME }}/devops-challenge:latest
