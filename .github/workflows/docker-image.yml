@@ -30,6 +30,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: prueba3
-          file: Dockerfile
+          file: prueba3/Dockerfile
           push: true
           tags: gabilucarini18/app:latest
